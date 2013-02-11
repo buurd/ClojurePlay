@@ -36,11 +36,11 @@
    (html5
       [:html
        [:head
-        [:title "Leker med clojure"]]
+        [:title "Playing with Clojure"]]
        [:body
         [:div
-         [:h2 "Vi testar att räkna lite"]]
-        (link-to "/calc" "Addera lite")
+         [:h2 "Start page"]]
+        (link-to "/calc" "Add some... ")
         ]])))
 
 (defn add-page [params] 
@@ -48,10 +48,10 @@
    (html5
       [:html
        [:head
-        [:title "Leker med clojure"]]
+        [:title "Playing with Clojure"]]
        [:body
         [:div
-         [:h2 "Vi räknar lite"]]
+         [:h2 "Adding"]]
         [:div (+ (parse-int(params :add1)) (parse-int(params :add2)))]
         (add-form (params :add1) (params :add2))
         ]])))
