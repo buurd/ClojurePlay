@@ -10,10 +10,20 @@
       ))
 
 (defn parse-int [s]
-   (Integer. (re-find  #"\d+" s )))
+   (Integer. 
+           (re-find  #"\d+" s )))
+
+(defn header [title]
+  (html 
+   [:head
+    [:title title]
+    (include-js "/cljs/main.js")
+    (include-js "/cljs/play.js")
+    ]))
 
 (defn add-form [x y]
-  (form-to [:post "/calc"]
+  (form-to {:id "form"} 
+   [:post "/calc"]
         [:div
          [:ul
           [:li "Ett "
@@ -26,40 +36,33 @@
            :name "add2"
            :id "add2"
            :value y}]]]
-         [:input {:type "submit"
+         [:input {:type "button"
                 :value "Summera"}]]))
 
-
-
 (defn start-page []
-  (html 
    (html5
-      [:html
-       [:head
-        [:title "Playing with Clojure"]]
+       (header "Playing with Clojure ... ")
        [:body
         [:div
          [:h2 "Start page"]]
         (link-to "/calc" "Add some... ")
-        ]])))
+        ]))
 
 (defn add-page [params] 
-  (html 
    (html5
-      [:html
-       [:head
-        [:title "Playing with Clojure"]]
+       (header "Playing with Clojure... ")
        [:body
         [:div
          [:h2 "Adding"]]
         [:div (+ (parse-int(params :add1)) (parse-int(params :add2)))]
         (add-form (params :add1) (params :add2))
-        ]])))
+        ]))
 
 (defroutes app-routes
   (GET "/" [] (start-page))
   (GET "/calc" [] (add-page {:add1 "0" :add2 "0"}))
   (POST "/calc" {params :params} (add-page params))
+  (route/resources "/")
   (route/not-found "Not Found"))
 
 (def app
